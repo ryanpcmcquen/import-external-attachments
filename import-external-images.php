@@ -31,12 +31,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 	$external_image_count = 0;	
 	
-	define( 'EXTERNAL_IMAGES_DIR' , basename( dirname(__FILE__) ) );
 	define( 'EXTERNAL_IMAGES_MAX_POSTS_COUNT' , 50 );
 	define( 'EXTERNAL_IMAGES_MAX_COUNT' , 20 );
 	define( 'EXTERNAL_IMAGES_DIR' , plugin_dir_path( __FILE__ ) );
 	define( 'EXTERNAL_IMAGES_URL' , plugins_url( basename( dirname( __FILE__ ) ) ) );
-
+		
 	define( 'EXTERNAL_IMAGES_ALLOW_BULK_MESSAGE' , false );
 
 	require_once( ABSPATH . 'wp-admin/includes/file.php' );
@@ -106,7 +105,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 	}
 		
 	function external_image_menu() {
-		add_media_page( 'Import Images', 'Import Images', 8, 'external_image', 'external_image_options' );
+		add_media_page( 'Import Images', 'Import Images', 'edit_theme_options', 'external_image', 'external_image_options' );
 	}
 
 	/*
@@ -115,6 +114,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 	function import_external_images_per_post() {
 
 		$external_images = external_image_get_img_tags( $_GET['post'] );
+		
+		$html = '';
 		
 		if ( is_array( $external_images ) && count( $external_images ) > 0 ) {
 		
@@ -130,9 +131,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 		$html .= 	'</div>';
 		}
 		echo $html;
-		
-		//echo 'Test: ' . ( is_external_file('http://on3design.org/wp-content/uploads/2011/11/') ? 'yes' : 'no' ) ;
-				
+						
 	}
 	
 	function is_external_file( $file ) {
