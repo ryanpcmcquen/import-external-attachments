@@ -2,7 +2,7 @@
 /*
 Plugin Name: Import External Images
 Plugin URI:  http://martythornley.com
-Version: 1.1
+Version: 1.2
 Description: Examines the text of a post and makes local copies of all the images linked though IMG tags, adding them as gallery attachments on the post itself.
 Author: Marty Thornley
 Author URI: http://martythornley.com
@@ -72,7 +72,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 			$message .= '<p>You may want to resize large images on you previous site before importing images. It will help save bandwidth during the import and prevent the import from crashing.';
 			$message .= '<p>You can <a href="http://photographyblogsites.com/file-folder/import-tools/bulk-resize-media.zip">download the "Bulk Image Resizer" here.</a></p>';
 				
-			if ( $pagenow == 'upload.php' && isset($_GET['page']) && $_GET['page'] == 'external_image' ) {
+			if ( $pagenow == 'upload.php' && isset( $_GET['page'] ) && $_GET['page'] == 'external_image' ) {
 				echo '<div class="updated fade">';
 				echo $message;
 				echo '</div>';
@@ -82,7 +82,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 		
 	function force_attachment_links_to_link_to_image( $link , $id ) {
 		
-		$object = get_post($id);
+		$object = get_post( $id );
 		
 		$mime_types = array( 
 			'image/png',
@@ -304,7 +304,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 			if ( $uri != '' && preg_match( '/^http:\/\//' , $uri ) ) {
 				//make sure it's external
 				if ( $s != substr( $uri , 0 , strlen( $s ) ) && ( !isset( $mapped ) || $mapped != substr( $uri , 0 , strlen( $mapped ) ) ) ) {
-					if ( $path_parts['extension'] == 'gif' || $path_parts['extension'] == 'jpg' || $path_parts['extension'] == 'png' )
+					if ( isset( $path_parts['extension'] ) && ( $path_parts['extension'] == 'gif' || $path_parts['extension'] == 'jpg' || $path_parts['extension'] == 'png' ) )
 						$result[] = $uri;
 				}
 			}
@@ -395,13 +395,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 	<h2>Import External Images</h2>
 	
 	<?php 
-		if ($_POST['action']=='backcatalog') {
+		if ( isset( $_POST['action'] ) && $_POST['action'] == 'backcatalog' ) {
 			
 			echo '<div id="message" class="updated fade" style="background-color:rgb(255,251,204); overflow: hidden; margin: 0 0 10px 0">';
 			external_image_backcatalog();
 			echo '</div>';
 			
-		} elseif ($_POST['action']=='update') {
+		} elseif ( isset( $_POST['action'] ) && $_POST['action'] == 'update' ) {
 			update_option('external_image_whichimgs',   esc_html( $_POST['external_image_whichimgs'] ) );
 			update_option('external_image_excludes',   	esc_html( $_POST['external_image_excludes'] ) );
 
@@ -509,6 +509,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 			$import .= '<div id="import_results" style="display:none"></div>';			
 		
 			$import .= '</div>';
+			
+			$html = '';
 			
 			if ( is_array( $posts_to_fix ) ) {
 				$html .= '<p class="howto">Please note that this can take a long time for sites with a lot of posts. You can also edit each post and import images one post at a time.</p>';
