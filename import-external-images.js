@@ -6,8 +6,7 @@
 	/**
 	 * Begin the process of re-sizing all of the checked images
 	 */
-	function external_images_import_images()
-	{
+	function external_images_import_images() {
 		
 		import_images_start_timer();
 		window.import_images_one_minute = '';

@@ -26,7 +26,10 @@
 			die();
 		}
 	}
-	
+
+	/**
+	 *
+	 */	
 	function external_image_get_backcatalog_ajax( $numberposts = -1 ) {
 		$posts_to_import = external_image_get_backcatalog($numberposts);	
 		
@@ -44,7 +47,8 @@
 	}
 
 	/**
-	*/
+	 *
+	 */
 	function external_image_import_all_ajax() {
 		//external_images_verify_permission();
 				
@@ -73,6 +77,3 @@
 		echo json_encode( $results  );
 		die(); // required by wordpress
 	}
-	
-	
-?>

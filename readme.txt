@@ -1,9 +1,9 @@
 === Import External Images ===
 Contributors: martythornley 
-Donate link: http://blogsiteplugins.com
+Donate link: http://martythornley.com
 Tags: images, gallery, photobloggers, attachments, photo, links, external, photographers, Flickr, save, download
 Requires at least: 3.2
-Tested up to: 3.4.1
+Tested up to: 4.0
 Stable tag: trunk
 
 Makes local copies of all the linked images in a post, adding them as gallery attachments.
@@ -40,6 +40,10 @@ Yes! It was developed and built ( and is used everyday ) at PhotographyBlogSites
 You can make it ignore any domain you want on the settings page, in case you work with a CDN or photo hosting site and want to keep those images where they are.
 
 == Changelog ==
+
+= 1.3 =
+Fixed case sensitivity, thanks to https://github.com/SidFerreira
+Fixed duplicate EXTERNAL_IMAGES_DIR notice
 
 = 1.1 =
 

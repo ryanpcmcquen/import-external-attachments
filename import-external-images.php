@@ -2,7 +2,7 @@
 /*
 Plugin Name: Import External Images
 Plugin URI:  http://martythornley.com
-Version: 1.2
+Version: 1.3
 Description: Examines the text of a post and makes local copies of all the images linked though IMG tags, adding them as gallery attachments on the post itself.
 Author: Marty Thornley
 Author URI: http://martythornley.com
@@ -140,7 +140,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 		
 		$ext = substr( $file , -4 );
 		
-		if ( in_array( $ext , $allowed ) )
+		if ( in_array( strtolower($ext) , $allowed ) )
 			return true;
 			
 		return false; 
@@ -248,7 +248,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 		
 		if ( function_exists( 'mime_content_type' ) ) {
 		
-			$mime = mime_content_type($file);
+			$mime = strtolower(mime_content_type($file));
 			switch($mime) {
 				case 'image/jpg':
 				case 'image/jpeg':
@@ -304,7 +304,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 			if ( $uri != '' && preg_match( '/^http:\/\//' , $uri ) ) {
 				//make sure it's external
 				if ( $s != substr( $uri , 0 , strlen( $s ) ) && ( !isset( $mapped ) || $mapped != substr( $uri , 0 , strlen( $mapped ) ) ) ) {
-					if ( isset( $path_parts['extension'] ) && ( $path_parts['extension'] == 'gif' || $path_parts['extension'] == 'jpg' || $path_parts['extension'] == 'png' ) )
+					$path_parts['extension'] = (isset($path_parts['extension'])) ? strtolower($path_parts['extension']) : false;
+					if ( $path_parts['extension'] == 'gif' || $path_parts['extension'] == 'jpg' || $path_parts['extension'] == 'png' )
 						$result[] = $uri;
 				}
 			}
@@ -441,53 +442,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 	
 		<?php
 		
-		/*
-		// use this to correct mistaken urls in bad imports...
-		$process = true;
-		
-		if ( is_site_admin() && $process) {
-		
-			$posts = get_posts( array( 'numberposts'=>-1 ) );
-			$count = 0;
-			echo '<a href="'.admin_url('upload.php?page=external_image').'">Refresh to check all posts!</a><br />';
-			
-			foreach( $posts as $this_post ) {
-
-				$content = $this_post->post_content;
-				preg_match_all( '/hultsphotography.*?uploads.*?-(.*?)x(.*?).jpg/' , $content , $matches );
-
-				if ( !empty( $matches[0] ) ) {
-
-					echo '<p><strong>' . $this_post->post_title . '</strong> has '. count($matches[0]) .' images that need correcting!</p>';
-					$count = 0;
-					foreach( $matches[0] as $old ) {
-						
-						$size = '-' . $matches[1][$count] . 'x' . $matches[2][$count];
-
-						$new = str_replace( $size , '' , $old );
-					
-						//echo 'Old: "' . $old . '"<br />';
-						//echo 'New: ' . $new . '<br /><br />';
-
-						$content = str_replace( $old , $new , $content );
-						$count++;
-					}
-				
-					$update = array();
-					$update['ID'] = $this_post->ID;
-					$update['post_content'] = $content;
-					
-					//wp_update_post($update);
-					
-					// print '<pre>'; print_r( $update ); print '</pre>';			
-				}
-				
-			}
-
-		}
-		
-		*/
-		
 			$posts = get_posts( array( 'numberposts'=>-1 ) );
 			$count = 0;
 			foreach( $posts as $this_post ) {
@@ -544,5 +498,3 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 </div>
 	<?php
 	}
-
-?>
