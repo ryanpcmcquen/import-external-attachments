@@ -140,7 +140,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 		
 		$ext = substr( $file , -4 );
 		
-		if ( in_array( $ext , $allowed ) )
+		if ( in_array( strtolower($ext) , $allowed ) )
 			return true;
 			
 		return false; 
@@ -248,7 +248,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 		
 		if ( function_exists( 'mime_content_type' ) ) {
 		
-			$mime = mime_content_type($file);
+			$mime = strtolower(mime_content_type($file));
 			switch($mime) {
 				case 'image/jpg':
 				case 'image/jpeg':
@@ -304,7 +304,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 			if ( $uri != '' && preg_match( '/^http:\/\//' , $uri ) ) {
 				//make sure it's external
 				if ( $s != substr( $uri , 0 , strlen( $s ) ) && ( !isset( $mapped ) || $mapped != substr( $uri , 0 , strlen( $mapped ) ) ) ) {
-					if ( isset( $path_parts['extension'] ) && ( $path_parts['extension'] == 'gif' || $path_parts['extension'] == 'jpg' || $path_parts['extension'] == 'png' ) )
+					$path_parts['extension'] = (isset($path_parts['extension'])) ? strtolower($path_parts['extension']) : false;
+					if ( $path_parts['extension'] == 'gif' || $path_parts['extension'] == 'jpg' || $path_parts['extension'] == 'png' )
 						$result[] = $uri;
 				}
 			}
