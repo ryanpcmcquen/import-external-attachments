@@ -1,8 +1,8 @@
 <?php	
 /*
-Plugin Name: Import External Images
+Plugin Name: Import External Images BG
 Plugin URI:  http://martythornley.com
-Version: 1.3
+Version: 1.4
 Description: Examines the text of a post and makes local copies of all the images linked though IMG tags, adding them as gallery attachments on the post itself.
 Author: Marty Thornley
 Author URI: http://martythornley.com
@@ -116,16 +116,33 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 		$external_images = external_image_get_img_tags( $_GET['post'] );
 		
 		$html = '';
+		$pdfs = '';
 		
 		if ( is_array( $external_images ) && count( $external_images ) > 0 ) {
 		
 		$html = 	'<div class="misc-pub-section " id="external-images" style="background-color: #FFFFE0; border-color: #E6DB55;">';
-		$html .= 	'<h4>You have ('.count( $external_images ).') images that can be imported!</h4>';
+		$html .= 	'<h4>You have ('.count( $external_images ).')  files that can be imported!</h4>';
+		
 		foreach ( $external_images as $external_image ) {
-			$html .= '<img style="margin: 3px; max-width:50px;" src="'.$external_image.'" />';
+			
+			if( strtolower(pathinfo($external_image, PATHINFO_EXTENSION)) == 'pdf') {
+				$cutlen = strlen( $external_image ) < 40  ? strlen( $external_image ) : -40;
+				
+				$pdfs .= '<li><small>...' . substr( $external_image, $cutlen) . '</small></li>';
+			}
+			else {
+				$html .= '<img style="margin: 3px; max-width:50px;" src="'.$external_image.'" />';	
+			}
+			
 		}
+		
+		if( strlen( $pdfs ) ) {
+			$html .= '<strong>PDFs to Import:</strong>';
+			$html .= '<ul class="pdf-list">' . $pdfs . '</ul>';
+		}
+		
 		$html .= 	'<input type="hidden" name="import_external_images_nonce" id="import_external_images_nonce" value="'.wp_create_nonce( 'import_external_images_nonce' ).'" />';
-		$html .= 	'<p><input type="checkbox" name="import_external_images" id="import_external_images" value="import-'.$_GET['post'].'" /> Import External Images?</p>';	
+		$html .= 	'<p><input type="checkbox" name="import_external_images" id="import_external_images" value="import-'.$_GET['post'].'" /> Import External Media?</p>';	
 		$html .= 	'<p class="howto">Only '.EXTERNAL_IMAGES_MAX_COUNT.' images will be imported at a time to keep things from taking too long.</p>';
 
 		$html .= 	'</div>';
@@ -136,7 +153,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 	
 	function is_external_file( $file ) {
 		
-		$allowed = array( '.jpg' , '.png', '.bmp' , '.gif' );
+		$allowed = array( '.jpg' , '.png', '.bmp' , '.gif',  '.pdf' );
 		
 		$ext = substr( $file , -4 );
 		
@@ -215,7 +232,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 	
 			// Set variables for storage
 			// fix file filename for query strings
-			preg_match('/[^\?]+\.(jpg|JPG|jpe|JPE|jpeg|JPEG|gif|GIF|png|PNG)/', $file, $matches);
+			preg_match('/[^\?]+\.(jpg|JPG|jpe|JPE|jpeg|JPEG|gif|GIF|png|PNG|pdf|PDF)/', $file, $matches);
 			$file_array['name'] = basename($matches[0]);
 			$file_array['tmp_name'] = $tmp;
 	
@@ -259,6 +276,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 					break;
 				case 'image/png':
 					return '.png';
+					break;
+				case 'application/pdf':
+					return '.pdf';
 					break;
 			}
 		
@@ -305,7 +325,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 				//make sure it's external
 				if ( $s != substr( $uri , 0 , strlen( $s ) ) && ( !isset( $mapped ) || $mapped != substr( $uri , 0 , strlen( $mapped ) ) ) ) {
 					$path_parts['extension'] = (isset($path_parts['extension'])) ? strtolower($path_parts['extension']) : false;
-					if ( $path_parts['extension'] == 'gif' || $path_parts['extension'] == 'jpg' || $path_parts['extension'] == 'png' )
+					if ( $path_parts['extension'] == 'gif' || $path_parts['extension'] == 'jpg' || $path_parts['extension'] == 'png' || $path_parts['extension'] == 'pdf')
 						$result[] = $uri;
 				}
 			}
