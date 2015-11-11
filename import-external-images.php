@@ -301,7 +301,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 			}
 			
 			//only check FQDNs
-			if ( $uri != '' && preg_match( '/^http:\/\//' , $uri ) ) {
+			if ( $uri != '' && preg_match( '/^https?:\/\//' , $uri ) ) {
 				//make sure it's external
 				if ( $s != substr( $uri , 0 , strlen( $s ) ) && ( !isset( $mapped ) || $mapped != substr( $uri , 0 , strlen( $mapped ) ) ) ) {
 					$path_parts['extension'] = (isset($path_parts['extension'])) ? strtolower($path_parts['extension']) : false;
