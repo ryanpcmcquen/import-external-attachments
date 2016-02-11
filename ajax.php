@@ -12,7 +12,7 @@
 	 * Output the javascript needed for making ajax calls into the header
 	 */
 	function external_images_bulk_resize_admin_javascript() {
-		echo "<script type=\"text/javascript\" src=\"".EXTERNAL_IMAGES_URL."/import-external-images.js\" ></script>\n";
+		echo "<script type=\"text/javascript\" src=\"".EXTERNAL_IMAGES_URL."/import-external-attachments.js\" ></script>\n";
 	}
 		
 	/**

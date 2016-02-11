@@ -1,15 +1,18 @@
-<?php	
+<?php
 /*
-Plugin Name: Import External Images BG
-Plugin URI:  http://martythornley.com
-Version: 1.4
-Description: Examines the text of a post and makes local copies of all the images linked though IMG tags, adding them as gallery attachments on the post itself.
-Author: Marty Thornley
-Author URI: http://martythornley.com
+Plugin Name: Import external attachments
+Plugin URI:  https://ryanpcmcquen.org
+Version: 1.5
+Description: Examines the text of a post and makes local copies of all the images & pdfs, adding them as gallery attachments on the post itself.
+Author: Ryan P.C. McQuen
+Author URI: https://ryanpcmcquen.org
 License: GPLv2 or later
 */
 
 /*
+
+based on Import External Images v1.4 by Marty Thornley
+https://github.com/MartyThornley/import-external-images
 
 based on Add Linked Images To Gallery v1.4 by Randy Hunt
 http://www.bbqiguana.com/wordpress-plugins/add-linked-images-to-gallery/

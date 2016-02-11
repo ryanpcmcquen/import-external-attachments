@@ -1,4 +1,4 @@
-import-external-images
-======================
+import-external-attachments
+===========================
 
-WordPress plugin that finds and imports external images.
+WordPress plugin that finds and imports external images and pdfs.
