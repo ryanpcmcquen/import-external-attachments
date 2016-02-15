@@ -450,7 +450,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 		</label>
 		</p>
 		<p><label for="myradio2">Domains to exclude (comma separated):</label></p>
-		<p class="howto">Example: smugmug.com, flickr.com, picassa.com, photobucket.com, facebook.com</p>
+		<p class="howto">Example: smugmug.com, flickr.com, picasa.com, photobucket.com, facebook.com</p>
 		<p><textarea style="height:90px; width: 294px;"id="external_image_excludes" name="external_image_excludes"><?php echo ( get_option('external_image_excludes') != '' ? get_option('external_image_excludes') : '' ); ?></textarea></p>
 
 		<div class="submit">
