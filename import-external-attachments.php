@@ -437,7 +437,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 	<form name="external_image-options" method="post" action="" style="width:300px; padding: 0 20px; margin: 20px 20px 0 0 ; float: left; background: #f6f6f6; border: 1px solid #e5e5e5; ">
 	<h2 style="margin-top: 0px;">Options</h2>
 		<?php settings_fields('external_image'); ?>
-		<h3>Which external IMG links to process:</h3>
+		<h3>Which external links to process:</h3>
 		<p>By default, all external images and pdfs are processed.  This can be set to ignore certain domains.</p>
 		<p>
 		<label for="myradio1">
