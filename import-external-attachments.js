@@ -135,6 +135,7 @@
   };
 
   window.external_images_import_complete = external_images_import_complete;
+  window.import_images_start_time = import_images_start_time;
   window.external_images_import_all = external_images_import_all;
   window.external_images_import_images = external_images_import_images;
 

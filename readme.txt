@@ -43,6 +43,10 @@ You can make it ignore any domain you want on the settings page, in case you wor
 
 == Changelog ==
 
+= 1.5.4 =
+
+Make import_images_start_time globally accessible.
+
 = 1.5.3 =
 
 General cleanup.
@@ -53,6 +57,7 @@ Merged upstream pull requests from bengreeley and IvanDoomer and changed to 'Imp
 Now supports PDFs and HTTPS!
 
 = 1.3 =
+
 Fixed case sensitivity, thanks to https://github.com/SidFerreira
 Fixed duplicate EXTERNAL_IMAGES_DIR notice
 
