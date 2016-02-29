@@ -43,6 +43,10 @@ You can make it ignore any domain you want on the settings page, in case you wor
 
 == Changelog ==
 
+= 1.5.5 =
+
+Make import_images_start_time a function. Hopefully it works now.  :^)
+
 = 1.5.4 =
 
 Make import_images_start_time globally accessible.

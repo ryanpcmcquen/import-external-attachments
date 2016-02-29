@@ -29,7 +29,9 @@
 
   var d = new Date();
   var import_images_start_time;
-  import_images_start_time = d.getTime();
+  import_images_start_time = function () {
+    d.getTime();
+  };
   var import_images_one_minute;
   var import_images_three_minute;
   var import_images_five_minute;
