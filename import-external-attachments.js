@@ -34,6 +34,8 @@
   var import_images_three_minute;
   var import_images_five_minute;
   var import_images_ten_minute;
+  var import_images_twenty_minute;
+
   /**
    * recursive function for resizing images
    */
@@ -53,7 +55,7 @@
     var current_time = d.getTime();
 
     if (current_time > (import_images_start_time + 60000) && import_images_one_minute !== 'set') {
-      target_message.prepend('<div>1 minute passed... Looking good!</div>');
+      target_message.prepend('<div>1 minute passed ... Looking good!</div>');
       import_images_one_minute = 'set';
     }
     if (current_time > (import_images_start_time + 180000) && import_images_three_minute !== 'set') {
@@ -61,16 +63,16 @@
       import_images_three_minute = 'set';
     }
     if (current_time > (import_images_start_time + 300000) && import_images_five_minute !== 'set') {
-      target_message.prepend('<div>5 minutes have passed... Still looking good... But if we seem stuck on one post, you may want to refresh and try again.</div>');
+      target_message.prepend('<div>5 minutes have passed ... Still looking good ... But if we seem stuck on one post, you may want to refresh and try again.</div>');
       import_images_five_minute = 'set';
     }
     if (current_time > (import_images_start_time + 600000) && import_images_ten_minute !== 'set') {
-      target_message.prepend('<div>10 minutes have passed... Woah! You have lot of images.</div>');
+      target_message.prepend('<div>10 minutes have passed ... Woah! You have a lot of media.</div>');
       import_images_ten_minute = 'set';
-      var lets_stop_here = true;
+      // var lets_stop_here = true;
     }
     if (current_time > (import_images_start_time + 1200000) && import_images_twenty_minute !== 'set') {
-      target_message.prepend("<div style='color:#990000'>20 minutes have passed... You REALLY have lot of images... Let's take a break. Refresh this page to start again.</div>");
+      target_message.prepend("<div style='color:#990000'>20 minutes have passed... You REALLY have a lot of media ... Let's take a break. Refresh this page to start again.</div>");
       import_images_twenty_minute = 'set';
     }
     var data = {

@@ -43,6 +43,10 @@ You can make it ignore any domain you want on the settings page, in case you wor
 
 == Changelog ==
 
+= 1.5.3 =
+
+General cleanup.
+
 = 1.5.1 =
 
 Merged upstream pull requests from bengreeley and IvanDoomer and changed to 'Import external attachments'.
