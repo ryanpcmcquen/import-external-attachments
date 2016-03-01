@@ -1,4 +1,4 @@
-=== Import External Images ===
+=== Import external attachments ===
 Contributors: ryanpcmcquen
 Donate link: https://ryanpcmcquen.org
 Tags: images, gallery, photobloggers, attachments, photo, links, external, photographers, Flickr, save, download, pdf
@@ -9,6 +9,7 @@ Stable tag: trunk
 Makes local copies of all the linked images and pdfs in a post, adding them as gallery attachments.
 
 == Description ==
+
 Makes local copies of all the linked images and pdfs in a post, adding them as gallery attachments.
 
 = Features =
@@ -42,6 +43,10 @@ Yes! It was developed and built ( and is used everyday ) at PhotographyBlogSites
 You can make it ignore any domain you want on the settings page, in case you work with a CDN or photo hosting site and want to keep those images where they are.
 
 == Changelog ==
+
+= 1.5.6 =
+
+Fix naming.
 
 = 1.5.5 =
 

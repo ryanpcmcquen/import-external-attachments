@@ -2,7 +2,7 @@
 /*
 Plugin Name: Import external attachments
 Plugin URI:  https://ryanpcmcquen.org
-Version: 1.5.5
+Version: 1.5.6
 Description: Examines the text of a post and makes local copies of all the images & pdfs, adding them as gallery attachments on the post itself.
 Author: Ryan P.C. McQuen
 Author URI: https://ryanpcmcquen.org
