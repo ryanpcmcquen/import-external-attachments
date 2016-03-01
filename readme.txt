@@ -12,13 +12,24 @@ Makes local copies of all the linked images and pdfs in a post, adding them as g
 
 Makes local copies of all the linked images and pdfs in a post, adding them as gallery attachments.
 
-For support head to:
+Source & support:
 
 https://github.com/ryanpcmcquen/import-external-attachments
 
 = Credits =
 
-This plugin is baszed on the work done in the "Import External Images" plugin by MartyThornley.
+This plugin is based on the work done in the "Import External Images" plugin by MartyThornley.
+
+https://github.com/MartyThornley
+
+HTTPS support added by IvanDoomer:
+https://github.com/IvanDoomer
+
+PDF support added by bengreeley:
+https://github.com/bengreeley
+
+Most of the JavaScript was rewritten from the original plugin, to reduce the
+number of global variables.
 
 == Installation ==
 
@@ -38,13 +49,17 @@ PDF functionality was added by bengreeley.
 
 = Does it work with MultiSite? =
 
-Yes! It was developed and built ( and is used everyday ) at PhotographyBlogSites.com - a multisite install.
+Yes! It was developed and built (and is used everyday) at PhotographyBlogSites.com - a multisite install.
 
 = What if i don't want to import images from a third party image hosting site? =
 
 You can make it ignore any domain you want on the settings page, in case you work with a CDN or photo hosting site and want to keep those images where they are.
 
 == Changelog ==
+
+= 1.5.8 =
+
+Fix some typos.
 
 = 1.5.7 =
 
@@ -78,4 +93,4 @@ Fixed duplicate EXTERNAL_IMAGES_DIR notice
 
 = 1.1 =
 
-fixed title in readme.
+Fixed title in readme.
