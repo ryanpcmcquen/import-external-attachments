@@ -12,7 +12,9 @@ Makes local copies of all the linked images and pdfs in a post, adding them as g
 
 Makes local copies of all the linked images and pdfs in a post, adding them as gallery attachments.
 
-= Features =
+For support head to:
+
+https://github.com/ryanpcmcquen/import-external-attachments
 
 = Credits =
 
@@ -43,6 +45,10 @@ Yes! It was developed and built ( and is used everyday ) at PhotographyBlogSites
 You can make it ignore any domain you want on the settings page, in case you work with a CDN or photo hosting site and want to keep those images where they are.
 
 == Changelog ==
+
+= 1.5.7 =
+
+Add GitHub link.
 
 = 1.5.6 =
 
