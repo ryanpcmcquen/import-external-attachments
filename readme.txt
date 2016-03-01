@@ -57,6 +57,10 @@ You can make it ignore any domain you want on the settings page, in case you wor
 
 == Changelog ==
 
+= 1.5.9 =
+
+Remove duplicate README.
+
 = 1.5.8 =
 
 Fix some typos.
