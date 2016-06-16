@@ -2,7 +2,7 @@
 /*
 Plugin Name: Import external attachments
 Plugin URI:  https://github.com/ryanpcmcquen/import-external-attachments
-Version: 1.5.9
+Version: 1.5.10
 Description: Examines the text of a post and makes local copies of all the images & pdfs, adding them as gallery attachments on the post itself.
 Author: Ryan P.C. McQuen
 Author URI: https://ryanpcmcquen.org
@@ -90,8 +90,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 		$mime_types = array(
 			'image/png',
 			'image/jpeg',
-			'image/jpeg',
-			'image/jpeg',
+			'image/jpg',
 			'image/gif',
 			'image/bmp'
 		);
@@ -156,12 +155,17 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 	function is_external_file( $file ) {
 
-		$allowed = array( '.jpg' , '.png', '.bmp' , '.gif',  '.pdf' );
+		$allowed = array( 'jpeg' , 'png', 'bmp' , 'gif',  'pdf', 'jpg' );
 
-		$ext = substr( $file , -4 );
+		$ext = pathinfo($file, PATHINFO_EXTENSION);
+		error_log('ext' . $ext);
 
-		if ( in_array( strtolower($ext) , $allowed ) )
+		if ( in_array( strtolower($ext) , $allowed ) ) {
+			error_log('yes');
 			return true;
+		} else {
+			error_log('satrs');
+		}
 
 		return false;
 
@@ -235,7 +239,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 			// Set variables for storage
 			// fix file filename for query strings
-			preg_match('/[^\?]+\.(jpg|JPG|jpe|JPE|jpeg|JPEG|gif|GIF|png|PNG|pdf|PDF)/', $file, $matches);
+			preg_match('/[^\?]+\.(jpg|JPG|jpeg|JPEG|gif|GIF|png|PNG|pdf|PDF)/', $file, $matches);
 			$file_array['name'] = basename($matches[0]);
 			$file_array['tmp_name'] = $tmp;
 
@@ -271,8 +275,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 			$mime = strtolower(mime_content_type($file));
 			switch($mime) {
 				case 'image/jpg':
-				case 'image/jpeg':
 					return '.jpg';
+					break;
+				case 'image/jpeg':
+					return '.jpeg';
 					break;
 				case 'image/gif':
 					return '.gif';
@@ -328,7 +334,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 				//make sure it's external
 				if ( $s != substr( $uri , 0 , strlen( $s ) ) && ( !isset( $mapped ) || $mapped != substr( $uri , 0 , strlen( $mapped ) ) ) ) {
 					$path_parts['extension'] = (isset($path_parts['extension'])) ? strtolower($path_parts['extension']) : false;
-					if ( $path_parts['extension'] == 'gif' || $path_parts['extension'] == 'jpg' || $path_parts['extension'] == 'png' || $path_parts['extension'] == 'pdf')
+					if ( $path_parts['extension'] == 'gif' || $path_parts['extension'] == 'jpg' || $path_parts['extension'] == 'jpeg' || $path_parts['extension'] == 'png' || $path_parts['extension'] == 'pdf')
 						$result[] = $uri;
 				}
 			}
