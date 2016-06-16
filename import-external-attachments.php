@@ -158,13 +158,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 		$allowed = array( 'jpeg' , 'png', 'bmp' , 'gif',  'pdf', 'jpg' );
 
 		$ext = pathinfo($file, PATHINFO_EXTENSION);
-		error_log('ext' . $ext);
 
 		if ( in_array( strtolower($ext) , $allowed ) ) {
-			error_log('yes');
 			return true;
-		} else {
-			error_log('satrs');
 		}
 
 		return false;
