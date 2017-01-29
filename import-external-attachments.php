@@ -3,7 +3,7 @@
 Plugin Name: Import external attachments
 Plugin URI:  https://github.com/ryanpcmcquen/import-external-attachments
 Version: 1.5.10
-Description: Examines the text of a post and makes local copies of all the images & pdfs, adding them as gallery attachments on the post itself.
+Description: Examines the text of a post and makes local copies of all the images & documents, adding them as gallery attachments on the post itself.
 Author: Ryan P.C. McQuen
 Author URI: https://ryanpcmcquen.org
 License: GPLv2 or later
@@ -115,10 +115,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 	 */
 	function import_external_images_per_post() {
 
-		$external_images = external_image_get_img_tags( $_GET['post'] );
+		$post_id = (int) $_GET['post'];
+		$external_images = external_image_get_img_tags( $post_id );
 
 		$html = '';
-		$pdfs = '';
+		$documents = '';
 
 		if ( is_array( $external_images ) && count( $external_images ) > 0 ) {
 
@@ -127,10 +128,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 		foreach ( $external_images as $external_image ) {
 
-			if( strtolower(pathinfo($external_image, PATHINFO_EXTENSION)) == 'pdf') {
+			if( in_array( strtolower(pathinfo($external_image, PATHINFO_EXTENSION)), array( 'pdf', 'doc', 'docx' ) ) ) {
 				$cutlen = strlen( $external_image ) < 40  ? strlen( $external_image ) : -40;
 
-				$pdfs .= '<li><small>...' . substr( $external_image, $cutlen) . '</small></li>';
+				$documents .= '<li><small>...' . substr( $external_image, $cutlen) . '</small></li>';
 			}
 			else {
 				$html .= '<img style="margin: 3px; max-width:50px;" src="'.$external_image.'" />';
@@ -138,13 +139,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 		}
 
-		if( strlen( $pdfs ) ) {
+		if( strlen( $documents ) ) {
 			$html .= '<strong>PDFs to Import:</strong>';
-			$html .= '<ul class="pdf-list">' . $pdfs . '</ul>';
+			$html .= '<ul class="pdf-list">' . $documents . '</ul>';
 		}
 
 		$html .= 	'<input type="hidden" name="import_external_images_nonce" id="import_external_images_nonce" value="'.wp_create_nonce( 'import_external_images_nonce' ).'" />';
-		$html .= 	'<p><input type="checkbox" name="import_external_images" id="import_external_images" value="import-'.$_GET['post'].'" /> Import external media?</p>';
+		$html .= 	'<p><input type="checkbox" name="import_external_images" id="import_external_images" value="import-'.$post_id.'" /> Import external media?</p>';
 		$html .= 	'<p class="howto">Only '.EXTERNAL_IMAGES_MAX_COUNT.' will be imported at a time to keep things from taking too long.</p>';
 
 		$html .= 	'</div>';
@@ -155,7 +156,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 	function is_external_file( $file ) {
 
-		$allowed = array( 'jpeg' , 'png', 'bmp' , 'gif',  'pdf', 'jpg' );
+		$allowed = array( 'jpeg' , 'png', 'bmp' , 'gif',  'pdf', 'jpg', 'doc', 'docx' );
 
 		$ext = pathinfo($file, PATHINFO_EXTENSION);
 
@@ -235,7 +236,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 			// Set variables for storage
 			// fix file filename for query strings
-			preg_match('/[^\?]+\.(jpg|JPG|jpeg|JPEG|gif|GIF|png|PNG|pdf|PDF)/', $file, $matches);
+			preg_match('/[^\?]+\.(jpg|jpeg|gif|png|pdf|doc|docx)/i', $file, $matches);
 			$file_array['name'] = basename($matches[0]);
 			$file_array['tmp_name'] = $tmp;
 
@@ -285,6 +286,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 				case 'application/pdf':
 					return '.pdf';
 					break;
+				case 'application/msword':
+					return '.doc';
+					break;
+				case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
+					return '.docx';
+					break;
 			}
 
 			return '';
@@ -306,8 +313,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 
 		$result = array();
-		preg_match_all( '/<img[^>]* src=[\'"]?([^>\'" ]+)/' , $post->post_content , $matches );
-		preg_match_all( '/<a[^>]* href=[\'"]?([^>\'" ]+)/' , $post->post_content , $matches2 );
+		preg_match_all( '/<img[^>]* src=[\'"]?([^>\'"]+)/' , $post->post_content , $matches );
+		preg_match_all( '/<a[^>]* href=[\'"]?([^>\'"]+)/' , $post->post_content , $matches2 );
 
 		$matches[0] = array_merge( $matches[0] , $matches2[0] );
 		$matches[1] = array_merge( $matches[1] , $matches2[1] );
@@ -330,7 +337,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 				//make sure it's external
 				if ( $s != substr( $uri , 0 , strlen( $s ) ) && ( !isset( $mapped ) || $mapped != substr( $uri , 0 , strlen( $mapped ) ) ) ) {
 					$path_parts['extension'] = (isset($path_parts['extension'])) ? strtolower($path_parts['extension']) : false;
-					if ( $path_parts['extension'] == 'gif' || $path_parts['extension'] == 'jpg' || $path_parts['extension'] == 'jpeg' || $path_parts['extension'] == 'png' || $path_parts['extension'] == 'pdf')
+					if ( in_array( $path_parts['extension'], array( 'gif', 'jpg', 'jpeg', 'png', 'pdf', 'doc', 'docx' ) ) )
 						$result[] = $uri;
 				}
 			}
@@ -342,7 +349,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 	function external_image_backcatalog () {
 
-		$posts = get_posts( array( 'numberposts'=>-1 ) );
+		$posts = get_posts( array( 'numberposts'=>-1, 'post_type' => array( 'post', 'page' ) ) );
 		echo '<h4>Processing Posts...</h4>';
 
 		set_time_limit(300);
@@ -384,7 +391,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 	function external_image_get_backcatalog () {
 
-		$posts = get_posts( array( 'numberposts' => -1 ) );
+		$posts = get_posts( array( 'numberposts' => -1, 'post_type' => array( 'post', 'page' ) ) );
 
 		$count_posts = 0;
 		$posts_to_import = array();
@@ -440,7 +447,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 	<h2 style="margin-top: 0px;">Options</h2>
 		<?php settings_fields('external_image'); ?>
 		<h3>Which external links to process:</h3>
-		<p>By default, all external images and pdfs are processed.  This can be set to ignore certain domains.</p>
+		<p>By default, all external images and documents are processed.  This can be set to ignore certain domains.</p>
 		<p>
 		<label for="myradio1">
 			<input id="myradio1" type="radio" name="external_image_whichimgs" value="all" <?php echo (get_option('external_image_whichimgs')!='exclude'?'checked="checked"':''); ?> /> All attachments
@@ -467,7 +474,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 		<?php
 
-			$posts = get_posts( array( 'numberposts'=>-1 ) );
+			$posts = get_posts( array( 'numberposts'=>-1, 'post_type' => array( 'post', 'page' ) ) );
 			$count = 0;
 			foreach( $posts as $this_post ) {
 				$images = external_image_get_img_tags ($this_post->ID);
