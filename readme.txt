@@ -57,6 +57,18 @@ You can make it ignore any domain you want on the settings page, in case you wor
 
 == Changelog ==
 
+= 1.5.12 =
+
+* Adds support for pages.
+* Adds support for `.doc` and `.docx` files.
+* Fixes security issue by not directly echoing `$_GET['post']` but casting it to `int`.
+* Adds support for filenames with spaces in them (by removing the space from the exclusion in the regex).
+* Makes the regexes slightly easier to read by making them case insensitive.
+
+= 1.5.11 =
+
+Add .jpeg support.
+
 = 1.5.9 =
 
 Remove duplicate README.
