@@ -4,7 +4,7 @@ Plugin Name: Import external attachments
 Plugin URI:  https://github.com/ryanpcmcquen/import-external-attachments
 Version: 1.5.12
 Description: Examines the text of a post and makes local copies of all the images & documents, adding them as gallery attachments on the post itself.
-Author: Ryan P.C. McQuen
+Author: Ryan P. C. McQuen
 Author URI: https://ryanpcmcquen.org
 License: GPLv2 or later
 */
